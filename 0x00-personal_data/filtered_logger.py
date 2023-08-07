@@ -6,8 +6,24 @@ import re
 from typing import List
 import logging
 from typing import Tuple
+import os
+import mysql.connector
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    ''' Creates a connector to a mysql database.
+    '''
+    connection = mysql.connector.connect(
+                host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+                user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+                password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+                databse=os.getenv('PERSONAL_DATA_DB_NAME', ''),
+                port=3306,
+                )
+
+    return connection
 
 
 def get_logger() -> logging.Logger:
