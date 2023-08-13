@@ -21,9 +21,9 @@ class BasicAuth(Auth):
         for a Basic Authentication.
         '''
         if isinstance(authorization_header, str):
-            auth_type, auth_token = authorization_header.split(' ')
-            if auth_type == 'Basic':
-                return auth_token
+            auth_token = authorization_header.split(' ')
+            if auth_token[0] == 'Basic':
+                return auth_token[1]
         return None
 
     def decode_base64_authorization_header(
