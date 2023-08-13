@@ -21,10 +21,10 @@ class BasicAuth(Auth):
         for a Basic Authentication.
         '''
         if isinstance(authorization_header, str):
-            if authorization_header.startswith("Basic "):
-                return authorization_header[5:]
-        else:
-            return None
+            auth_type, auth_token = authorization_header.split(' ')
+            if auth_type == 'Basic':
+                return auth_token
+        return None
 
     def decode_base64_authorization_header(
             self,
@@ -76,7 +76,7 @@ class BasicAuth(Auth):
     def current_user(self, request=None) -> TypeVar('User'):
         ''' Retrieves the user from a request.
         '''
-        auth_header = self.authorization_header(request)
+        auth_header = request.headers.get('Authorization')
         b64_auth_token = self.extract_base64_authorization_header(auth_header)
         auth_token = self.decode_base64_authorization_header(b64_auth_token)
         email, password = self.extract_user_credentials(auth_token)
