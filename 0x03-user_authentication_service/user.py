@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-''' Defines a User SQLAlchemy model 
+''' Defines a User SQLAlchemy model
 '''
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -18,5 +18,3 @@ class User(Base):
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
     reset_token = Column(String(250), nullable=True)
-
-
