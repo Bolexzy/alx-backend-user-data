@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -43,3 +45,17 @@ class DB:
             user = None
 
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        ''' Finds a user based on a set of filters.
+        '''
+        try:
+            session = self._session
+            user = session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound("No user found matching the query")
+            return user
+        except NoResultFound as e:
+            raise e
+        except Exception:
+            raise InvalidRequestError()
