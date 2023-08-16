@@ -54,3 +54,14 @@ class DB:
             raise e
         except Exception:
             raise InvalidRequestError()
+
+    def update_user(self, user_id: int, **kwargs):
+        '''
+        '''
+        user = self.find_user_by(id=user_id)
+        for attr, value in kwargs.items():
+            if hasattr(user, attr):
+                setattr(user, attr, value)
+            else:
+                raise ValueError(f"Invalid user attribute: {attr}")
+        self._session.commit()
