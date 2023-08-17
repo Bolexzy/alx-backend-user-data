@@ -3,13 +3,12 @@
 Route module for the API
 """
 
-from flask import Flask, jsonify, abort, request
-from flask_cors import (CORS, cross_origin)
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
 
-@app_views.route('/', strict_slashes=False)
+@app.route('/', strict_slashes=False)
 def index() -> str:
     ''' GET /
     Return:
