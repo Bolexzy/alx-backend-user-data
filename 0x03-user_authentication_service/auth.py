@@ -2,6 +2,7 @@
 """A module for authentication-related routines.
 """
 from sqlalchemy.orm.exc import NoResultFound
+from typing import Union
 
 import bcrypt
 from user import User
