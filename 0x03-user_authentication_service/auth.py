@@ -64,3 +64,14 @@ class Auth:
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         return None
+
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
+        ''' Retrieves a user based on a given session ID.
+        '''
+        if session_id is None:
+            return None
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except NoResultFound:
+            return None
+        return user
