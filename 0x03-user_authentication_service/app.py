@@ -85,9 +85,24 @@ def get_reset_password_token():
     email = request.cookies.get('email')
     try:
         reset_token = AUTH.get_reset_password_token(email)
+        return jsonify({'email': email, 'reset_token': reset_token})
     except ValueError:
         abort(403)
-    return jsonify({'email': email, 'reset_token': reset_token})
+
+
+@app.route('/reset_password', methods=['PUT'], strict_slashes=False)
+def update_password():
+    '''
+    '''
+    email = request.cookies.get('email')
+    reset_token = request.cookies.get('reset_token')
+    new_password = request.cookies.get('new_password')
+
+    try:
+        AUTH.update_password(reset_token, new_password)
+        jsonify({"email": email, "message": "Password updated"})
+    except ValueError:
+        abort(403)
 
 
 if __name__ == "__main__":
